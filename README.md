@@ -22,7 +22,7 @@ netdiscover -i eth0
 I discovered the machine at `192.168.1.122`.
 
 ---
-
+![](images/site.png)
 ### 2.Port Scanning with Nmap
 
 Initial port scan:
@@ -32,7 +32,7 @@ nmap 192.168.1.122
 ```
 ## Nmap Scan Result
 
-![Nmap Output](https://example.com/nmap_result.png)
+![Nmap Output](images/nmap.png)
 Open ports:
 - **80 (HTTP)**
 - **21 (FTP)**
@@ -44,7 +44,7 @@ Detailed scan:
 ```bash
 nmap -p 80,21 -Pn -n -sC -sV -oN nmap_scan.txt 192.168.1.122
 ```
-[Output](https://example.com/nmap_result.png)
+[Output](images/nmap2.png)
 
 **Flags used:**
 - `-p`: specific ports
@@ -63,7 +63,8 @@ Visiting `http://192.168.1.122` reveals a website with a **"Buscar"** tab, which
 ```
 https://pwnlab.me/redirect?to=aHR0cDovLzE5Mi4xNjguNTYuMTE4L3NpdGUvYnVzcXVlLnBocD9idXNjYXI9
 ```
-[Output](https://example.com/nmap_result.png)
+[Output](images/site2.png)
+[Output](images/buscar.png)
 
 This link appears vulnerable to **Local File Inclusion (LFI)**. LFI allows us to upload files remotely. Since the machine is currently running locally, it's local, of course. If it can be uploaded to a remote server, it's RFI. Since I'm running the machine locally, I'll exploit LFI. 
 
@@ -72,7 +73,6 @@ Local File Inclusion (LFI) is a web browser option that enables an attacker to i
 By manipulating the URL, we can inspect the file structure and extract sensitive files.
 
 ---
-[Output](https://example.com/nmap_result.png)
 
 ### 4.Credential Discovery
 
@@ -84,15 +84,14 @@ pwd
 
 ls -all
 ```
-[Output](https://example.com/nmap_result.png)
-[Output](https://example.com/nmap_result.png)
+[Output](images/site4.png)
 
 Found a hidden file: `.backup`  
 Contents of `.backup` reveal **MySQL credentials**. .backup has read and write permissions.
 Also, since FTP port is open, I tested those credentials on the FTP service.
 
 ---
-[Output](https://example.com/nmap_result.png)
+[Output](images/site5.png)
 
 ### 5.FTP Access & File Upload
 
@@ -107,7 +106,7 @@ Credentials:
 Username: jangow01
 Password: abygurl69
 ```
-[Output](https://example.com/nmap_result.png)
+[Output](images/jangow.c.png)
 
 We've now learned that we can put files inside. We'll try navigating to different directories and using the "put" command. Our goal here is to run the exploit we've installed and become root. To do this, we'll use Local Privilege Escalation. I'll go to my home directory and enter the directory named "jangow01."
 Change to the user's home directory:
@@ -118,13 +117,13 @@ cd /home/jangow01
 ```ftp
 ls -all
 ```
-[Output](https://example.com/nmap_result.png)
+[Output](images/site6.png)
 Download the user flag:
 
 ```ftp
 get user.txt
 ```
-[Output](https://example.com/nmap_result.png)
+[Output](images/user.txt2.png)
 ---
 
 ### 6.Privilege Escalation
@@ -135,7 +134,8 @@ Check the kernel version:
 uname -a
 # Linux jangow01 4.4.0-31-generic
 ```
-[Output](https://example.com/nmap_result.png)
+[Output](images/jangow.png)
+[Output](images/jangow2.png)
 
 Search for privilege escalation exploits and found:  
 **CVE-2017-16995**
@@ -147,7 +147,7 @@ Upload it via FTP:
 ```ftp
 put jangow.c
 ```
-[Output](https://example.com/nmap_result.png)
+[Output](images/jangow4.png)
 ---
 
 ### 7.Compilation & Exploitation
@@ -162,7 +162,7 @@ gcc jangow.c -o jangow
 chmod +x jangow
 ./jangow
 ```
-[Output](https://example.com/nmap_result.png)
+[Output](images/jangow5.png)
 Now you're root!
 
 ---
@@ -175,22 +175,12 @@ Check the user:
 whoami
 # root
 ```
-[Output](https://example.com/nmap_result.png)
-Get the flag:
 
 ```bash
 ls /root
 cat /root/proof.txt
 ```
-[Output](https://example.com/nmap_result.png)
----
-
-## Summary
-
-- Gained access via **LFI**
-- Extracted credentials via hidden file
-- Used **FTP** to upload a privilege escalation exploit
-- Compiled and executed exploit
-- Gained **root access**
+[Output](images/jangow6.png)
+Get the flag:
 
 **Machine successfully rooted!** 

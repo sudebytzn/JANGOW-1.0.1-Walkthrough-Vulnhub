@@ -17,7 +17,7 @@ netdiscover -i eth0
 ```
 ## Result
 
-(images/netdiscover.png)
+(https://github.com/sudebytzn/JANGOW-1.0.1-Walkthrough-Vulnhub/blob/c8c04d1d345fd1389c3aad4fa7b1a1f0c4348158/images/netdiscover.png)
 I discovered the machine at `192.168.1.122`.
 
 ---

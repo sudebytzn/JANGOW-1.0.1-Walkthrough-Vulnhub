@@ -1,6 +1,6 @@
 # JANGOW-1.0.1-Walkthrough-Vulnhub
 Walkthrough and exploitation steps for the Jangow CTF machine from VulnHub.
-## 🕵️‍♀️ VulnHub CTF — Jangow Walkthrough
+## VulnHub CTF — Jangow Walkthrough
 
 This is a walkthrough for the **Jangow** machine from VulnHub. It covers the entire exploitation process, including enumeration, LFI, credential discovery, privilege escalation, and finally rooting the machine.
 
@@ -17,7 +17,7 @@ netdiscover -i eth0
 ```
 ## Result
 
-[](https://example.com/nmap_result.png)
+(images/netdiscover.png)
 
 I discovered the machine at `192.168.1.122`.
 

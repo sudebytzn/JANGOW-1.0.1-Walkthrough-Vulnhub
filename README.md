@@ -16,8 +16,8 @@ This is a walkthrough for the **Jangow** machine from VulnHub. It covers the ent
 netdiscover -i eth0
 ```
 ## Result
-(netdiscover.png)
 
+(images/netdiscover.png)
 I discovered the machine at `192.168.1.122`.
 
 ---
